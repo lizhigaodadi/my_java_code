@@ -1,0 +1,12 @@
+spring:
+  redis:
+    host: 192.168.1.11
+    port: 6379
+    database: 0   #使用0号数据库
+    timeout: 1800000  #连接超时时间（毫秒）
+    lettuce:
+      pool:
+        max-active: 20   #连接池的最大连接数
+        max-wait: -1 #最大阻塞等待时间
+        max-idle: 5   #最大空闲连接数
+        min-idle: 1   #最小空闲连接数

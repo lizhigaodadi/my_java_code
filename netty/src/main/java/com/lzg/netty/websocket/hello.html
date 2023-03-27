@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    var socket;
+    if (window.WebSocket) {
+        //webSocket可用
+        socket = new WebSocket("ws://localhost:6667/hello");
+
+        socket.onmessage = function (ev) {
+            //收到服务器发送过来的消息，回显到浏览器中
+            var docuMessage = document.getElementById("showMessage");
+            docuMessage.value = docuMessage.value + "\n" + ev.data;
+        }
+
+        socket.onopen = function (ev) {
+            var docuMessage = document.getElementById("showMessage");
+            docuMessage.value = "连接开启了";
+        }
+
+        socket.onclose = function (ev) {
+            var docuMessage = document.getElementById("showMessage");
+            docuMessage.value = docuMessage.value + "\n" + "连接关闭了";
+        }
+    } else {
+        alert("您的浏览器暂不支持webSocket");
+    }
+
+    function sendMessage(message) {
+        //客户端主动发消息过去
+        if (window.socket) {
+            //不支持，直接返回
+            return;
+        }
+        if (socket.readyState === WebSocket.OPEN) {
+            //准备就绪
+            socket.send(message);
+        } else {
+            alert("连接还未开启");
+        }
+    }
+</script>
+
+
+    <div id="root">
+        <form onsubmit="return false">   <!--通过按钮来触发事件-->
+            <textarea id="sendText" style="width: 200px;height: 100px">
+
+            </textarea>
+            <button  onclick="sendMessage(this.form.sendText.value)">发送消息</button>
+            <textarea id="showMessage" style="width: 200px;height: 100px">
+
+            </textarea>
+            <button onclick="document.getElementById('showMessage').value = ''">清空消息</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

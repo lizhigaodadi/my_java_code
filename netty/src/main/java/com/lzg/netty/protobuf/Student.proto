@@ -1,0 +1,29 @@
+syntax="proto3";   //设置版本号
+option optimize_for=SPEED;   //加快解析速度
+option java_outer_classname="MyDataInfo";  //设置外部类名
+option java_package="com.lzg.netty.protobuf";  //设置执行定生成到哪个包下
+
+message MyMessage {
+  //创建一个枚举来指定，这个数据究竟传递的是谁
+  enum DataType {
+    workerType=0;    //这里是从0开始计数的
+    studentType=1;
+  }
+
+  DataType dataType = 1;   //决定这个传递的是什么类型的数据
+
+  oneof dataBody {
+    Student student = 2;
+    Worker worker = 3;
+  }
+}
+
+message Student {
+  int32 id = 1;
+  string name = 2;
+}
+
+message Worker {
+  int32 age = 1;
+  string name = 2;
+}
